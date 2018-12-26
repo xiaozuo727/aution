@@ -16,7 +16,7 @@
 <body>
 <section style="padding: 0">
 
-    <img src="img/auction_banner.jpg" alt="" width="100%">
+    <img id="rule" src="img/auction_banner.jpg" alt="" width="100%">
     <div class="center color-red">
         <img class="vmid" src="img/auction_hot.png" alt="" width="15">
         <span class="f16 vmid">热拍推荐</span>
@@ -77,6 +77,9 @@
     $(document).on("click",".product li",function () {
         var url=$(this).attr("data-id");
         Router("auction_detail.html?goods_id="+url);
+    });
+    $("#rule").click(function () {
+        Router("auction_rule.html");
     })
 
 </script>
