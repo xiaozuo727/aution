@@ -14,12 +14,7 @@
     </style>
 </head>
 <body>
-<header class="flex">
-    <div class="f1"></div>
-    <div class="f8">首页</div>
-    <a href="auction_back.html" class="f1"><img class="vmid" src="img/auction_back.png" alt="" width="22"></a>
-</header>
-<section >
+<section style="padding: 0">
 
     <img src="img/auction_banner.jpg" alt="" width="100%">
     <div class="center color-red">
@@ -51,6 +46,8 @@
 </body>
 <script>
     window.onload=function () {
+    //alert("ssss")
+        init()
         var page_data;
         data={};
         new AjaxRequest({
@@ -70,15 +67,12 @@
                     }
                     $(".product").html(list);
                 }
-
             },
 
             error:function (err) {
                 console.log(err);
             }
         });
-
-
     };
     $(document).on("click",".product li",function () {
         var url=$(this).attr("data-id");

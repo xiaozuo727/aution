@@ -1,4 +1,4 @@
-var runModel='h5';
+var runModel='android';
 
 /**路由函数
  *
@@ -14,8 +14,8 @@ function Router(router) {
     if(runModel='android'){
         //alert(L)
         switch (L){
-            case 'fabao.html':
-                window.android.fabao(router);
+            case 'auction_detail.html':
+                android.godetail(router);
                 break;
             case 'chat.html':
                 window.android.chat(router);
@@ -55,7 +55,7 @@ function call(msg) {
     if(runModel=='h5'){
         alert(msg)
     }else{
-        window.android.alert(msg)
+        android.alert(msg)
     }
 
 }

@@ -41,7 +41,7 @@
 </head>
 <body>
 <header class="flex">
-    <a href="auction.html" class="f1 arrow rotate-180" style=""></a>
+    <a onclick="jsback()" class="f1 arrow rotate-180" style=""></a>
     <div class="f8">产品详情</div>
     <div class="f1"></div>
 </header>
@@ -143,6 +143,7 @@
 </body>
 <script src="js/swiper.min.js"></script>
 <script>
+    init();
     var swiper = new Swiper('.swiper-container', {
         loop : true,
         loopAdditionalSlides : 3,
@@ -388,7 +389,6 @@
                         });
 
                     }
-
                 }else{
                     call(res.info);
                 }

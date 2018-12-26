@@ -12,6 +12,18 @@ var hostUrl1="http://91mana.webziti.com/";
 * dataType          返回JSON数据  默认为JSON格式数据
 * callBack          请求的回调函数
 */
+function init() {
+    var json;
+    try {
+        json=android.getlogin()
+        eval("var jsonob="+json)
+        localStorage.userid=jsonob.userid;
+        localStorage.token=jsonob.token;
+        hostUrl=jsonob.host;
+    }catch (e) {
+        console.log(e)
+    }
+}
 (function(){
     function AjaxRequest(opts){
         this.type         = opts.type || "get";
