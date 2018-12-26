@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/aui.css">
+    <title>背包</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/global.js?t=1"></script>
+    <script src="js/Router.js?t=1"></script>
+
+</head>
+<body>
+<header class="flex">
+    <a href="auction.html" class="f1 arrow rotate-180"></a>
+    <div class="f8">背包</div>
+    <div class="f1"></div>
+</header>
+<section >
+    <ul id="back_box">
+        <!--<li class="pad-1 border-b-gray-5">
+            <div class="flex flex-start-y">
+                <div class="flex col-3 height-100">
+                    <img src="img/product.jpg" alt="" width="100%">
+                </div>
+                <div class="f1 pad-l-1">
+                    <p class="mar-b-5 ellipsis2 f12">【信仰毛尖】2018新茶安徽装毛尖茶毛峰绿茶叶100G卢</p>
+                    <p class="color-red2 right pad-t-5">交易成功</p>
+                </div>
+            </div>
+            <div class="right color-gray mar-t-5">
+                <span class="buy_back border-gray pad-2-1r border-radius-30">回购</span>
+                <span class="fahuo border-gray pad-2-1r mar-l-1 border-radius-30">发货</span>
+            </div>
+        </li>-->
+
+    </ul>
+</section>
+
+<!--填写收货地址-->
+<div class="mask none"></div>
+<div class="dizhi_box mask-box col-8 bg-white border-radius-5 pad-1 center none">
+    <p class="f16 color-red ">添加收货地址</p>
+    <ul class="f12 color-gray left">
+        <li class="border-b-gray flex pad-t-b-5">
+            <span>收货人：</span>
+            <input id="name" class="f1 border-no outline-no" type="text">
+        </li>
+        <li class="border-b-gray flex pad-t-b-5">
+            <span>手机号码：</span>
+            <input id="mobile" class="f1 border-no outline-no" type="text">
+        </li>
+        <li class="border-b-gray flex pad-t-b-5 flex-r-w">
+            <span>详细地址：如道路、门牌号、小区、楼栋号、单元室等</span>
+            <input id="ship_site" class="col-10 border-no outline-no pad-t-5" type="text">
+        </li>
+    </ul>
+    <div class="mar-t-1">
+        <span class="pad-5-2 border-radius-5 bg-gray2 mar-r-2">取消</span>
+        <span id="fahuo_btn" class="pad-5-2 border-radius-5 bg-blue color-white">发货</span>
+    </div>
+</div>
+
+</body>
+<script>
+    (function(){
+        data={};
+        new AjaxRequest({
+            type:"POST",
+            param:data,
+            url:hostUrl+"app/jiuyi/showbick",
+            datatype:"json",
+            isShowLoader: true,
+            callBack: function(res){
+                console.log(res);
+                if(res.status==1){
+                    var list="";
+                    for(var i=0;i<res.data.length;i++){
+                        list+='<li class="pad-1 border-b-gray-5" > <div class="flex flex-start-y"> <div class="flex col-3 height-100"> <img src="'+hostUrl1+res.data[i].list.goods_img+'" alt="" width="100%"> </div> <div class="f1 pad-l-1"> <p class="mar-b-5 ellipsis2 f12">【'+res.data[i].list.goods_name+'】'+res.data[i].list.goods_header+'</p> ';
+                        if(res.data[i].ship_status==0){
+                            list+='<p class="color-red2 right pad-t-5">等待处理</p></div> </div> <div class="right color-gray mar-t-5"> <span data-price="'+res.data[i].list.buyback_price/100+'" data-id="'+res.data[i].id+'" class="buy_back border-gray pad-2-1r border-radius-30">回购</span> <span class="fahuo border-gray pad-2-1r mar-l-1 border-radius-30">发货</span></div> </li> ';
+                        }else if(res.data[i].ship_status==1){
+                            list+='<p class="color-red2 right pad-t-5">回购成功</p> </div> </div> </li>';
+                        }else if(res.data[i].ship_status==2){
+                            list+='<p class="color-red2 right pad-t-5">等待发货</p></div> </div> <div class="right color-gray mar-t-5"> </div> </li> ';
+                        }else{
+                            list+='<p class="color-red2 right pad-t-5 line-height-1">已发货 <br/><span class=" f12">物流号：<span>'+res.data[i].list.tracking_no+'</span></span></p> </div> </div>  </li>';
+                        }
+
+                    }
+                    $("#back_box").html(list);
+                }
+
+            },
+            error:function (err) {
+                console.log(err);
+            }
+        });
+    })();
+
+    var back_id;
+    var back_price;
+    var back_index; //获取li的索引
+    $(document).on("click","#back_box .buy_back",function () {
+        back_id=$(this).attr('data-id');
+        back_price=$(this).attr('data-price');
+        back_index=$(this).parents("li").index();
+
+        var con="<span class='color-red'>该产品回购价格为"+back_price+"元，<br/>是否回购？</span>";
+        dialog2(con);
+
+    });
+
+    // 回购
+    $(document).on("click",".dialog_yes",function(){
+        data={};
+        data.periods_id=back_id;
+        data.buyback_price=back_price;
+        console.log(back_index);
+        new AjaxRequest({
+            type:"POST",
+            param:data,
+            url:hostUrl+"app/jiuyi/kickbuyback",
+            datatype:"json",
+            isShowLoader: true,
+            callBack: function(res){
+                console.log(res);
+                if(res.status==1){
+                    dialog_hide();
+                    /*console.log($("#back_box li").eq(back_index));
+                    $("#back_box li").eq(back_index).find(".right").hide();*/
+                    window.location.reload();
+                }else{
+                    dialog_hide();
+                    call(res.info);
+                }
+
+            },
+            error:function (err) {
+                console.log(err);
+            }
+        })
+        
+    });
+    $(document).on("click",".dialog_cancel",function () {
+        dialog_hide();
+    });
+
+    // 发货
+    var fahuo_id;
+    $(document).on("click",".fahuo",function () {
+        $(".mask").show();
+        $(".dizhi_box").show();
+        fahuo_id=$(this).siblings(".buy_back").attr("data-id");
+
+    });
+
+    $("#fahuo_btn").click(function () {
+        data={};
+        data.periods_id=fahuo_id;
+        data.name=$("#name").val();
+        data.mobile=$("#mobile").val();
+        data.ship_site=$("#ship_site").val();
+        new AjaxRequest({
+            type:"POST",
+            param:data,
+            url:hostUrl+"app/jiuyi/kickshipments",
+            datatype:"json",
+            isShowLoader: true,
+            callBack: function(res){
+                console.log(res);
+                if(res.status==1){
+                    dialog_hide();
+                    console.log($("#back_box li").eq(back_index));
+                    $("#back_box li").eq(back_index).find(".right").hide();
+                    window.location.reload();
+                }else{
+                    dialog_hide();
+                    call(res.info);
+                }
+
+            },
+            error:function (err) {
+                console.log(err);
+            }
+        })
+    })
+
+    
+</script>
+
+
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/aui.css">
+    <title>首页</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/global.js?t=1"></script>
+    <script src="js/Router.js?t=1"></script>
+    <style>
+        .product .col-3{height:98px;overflow: hidden;}
+    </style>
+</head>
+<body>
+<header class="flex">
+    <div class="f1"></div>
+    <div class="f8">首页</div>
+    <a href="auction_back.html" class="f1"><img class="vmid" src="img/auction_back.png" alt="" width="22"></a>
+</header>
+<section >
+
+    <img src="img/auction_banner.jpg" alt="" width="100%">
+    <div class="center color-red">
+        <img class="vmid" src="img/auction_hot.png" alt="" width="15">
+        <span class="f16 vmid">热拍推荐</span>
+    </div>
+    <ul class="product f12">
+        <!--<li class="pad-1 border-b-gray flex">
+            <div class="col-3 flex">
+                <img src="img/product.jpg" alt="" width="100%">
+            </div>
+            <div class="col-7 pad-l-1">
+                <p class="mar-b-5 ellipsis2">【信仰毛尖】2018新茶安徽装毛尖茶毛峰绿茶叶100G</p>
+                <div class="line-height-1">
+                    <p class="color-gray">RMB</p>
+                    <div class="fr">
+                        <img class="block auto" src="img/auction_icon1.png" alt="" width="25">
+                        <p>立即拍</p>
+                    </div>
+                    <p class="color-red2">起拍价 <span class="f16 bold">50元</span></p>
+                    <p class="color-red2">成交价 <span class="f16 bold">150元</span></p>
+                </div>
+            </div>
+        </li>-->
+
+    </ul>
+</section>
+
+</body>
+<script>
+    window.onload=function () {
+        var page_data;
+        data={};
+        new AjaxRequest({
+            type:"POST",
+            param:data,
+            url:hostUrl+"app/jiuyi/showauctiongoods",
+            datatype:"json",
+            isShowLoader: true,
+            callBack: function(res){
+                console.log(res);
+
+                if(res.status==1){
+                    var list='';
+                    for (var i=0;i<res.data.length;i++){
+                        list+='<li data-id="'+res.data[i].id+'" class="pad-1 border-b-gray flex" > <div class="col-3 flex"> <img src="'+hostUrl1+res.data[i].goods_img+'" alt="" width="100%"> </div> <div class="col-7 pad-l-1"> <p class="mar-b-5 ellipsis2">【'+res.data[i].goods_name+'】'+res.data[i].goods_header+'</p> <div class="line-height-1"> <p class="color-gray">RMB</p> <div class="fr"> <img class="block auto" src="img/auction_icon1.png" alt="" width="25"> <p>立即拍</p> </div> <p class="color-red2">起拍价 <span class="f16 bold">'+res.data[i].auction_price/100+'</span></p> <p class="color-red2">成交价 <span class="f16 bold">'+res.data[i].strike_price/100+'</span></p> </div> </div> </li>';
+
+                    }
+                    $(".product").html(list);
+                }
+
+            },
+
+            error:function (err) {
+                console.log(err);
+            }
+        });
+
+
+    };
+    $(document).on("click",".product li",function () {
+        var url=$(this).attr("data-id");
+        Router("auction_detail.html?goods_id="+url);
+    })
+
+</script>
+
+
+</html>

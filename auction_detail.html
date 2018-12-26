@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <title>产品详情</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/global.js?t=1"></script>
+    <script src="js/Router.js?t=1"></script>
+    <style>
+        .canpai_cp{height:30vh;align-items:stretch;}
+        .canpai_cp li{position: relative;width:calc((100vw - 30px)/3);margin:0 5px;flex:0 0 auto;border-radius: 10px;}
+        .canpai_cp li:before{content: '';position: absolute;width: 100%;height:100%;background:rgba(0,0,0,.3) url("img/lunpai.png")no-repeat center bottom;left:0;top:0;color:#fff;display:flex;align-items:flex-end;justify-content:center;}
+        .canpai_cp li.bg, .canpai_cp li:nth-child(1){transform: scale(1.2);z-index:1;}
+        .canpai_cp li.bg:before, .canpai_cp li:nth-child(1):before{display:none}
+        .countDown{margin:.5rem auto;box-shadow: 0 0 10px 2px #c08d92;}
+        .countDown span{display:inline-block;width:46px;padding:5px;background: #dd2d42;margin: 0 2px;}
+        .countDown .sec_text{right:5px;bottom:16px;}
+        .history_record>div>p, .history_record>ul>li>p{flex:1;}
+        .history_record>ul>li:nth-child(2n){background:#f9fafc;}
+        .canpai_box{height:45vh;background:url("img/auction_mask.png")no-repeat center;background-size: contain;}
+        .yes_btn{background-image: linear-gradient(#fef842,#ffcb06);box-shadow: 0 4px 0 #fd7f10;}
+        #canpai{background-image: linear-gradient(#fe4e33,#f63e3d)}
+
+        .swiper-container {
+            width: 100%;
+            padding-top: 30px;
+            padding-bottom: 20px;
+        }
+        .swiper-slide {
+            background-position: center!important;
+            background-size:cover!important;
+            width: 200px;
+            height: 200px;
+        }
+
+    </style>
+</head>
+<body>
+<header class="flex">
+    <a href="auction.html" class="f1 arrow rotate-180" style=""></a>
+    <div class="f8">产品详情</div>
+    <div class="f1"></div>
+</header>
+<section >
+    <!-- Swiper -->
+    <div class="swiper-container swiper-no-swiping">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <!--<img src="" alt="" width="100%">-->
+            </div>
+            <div class="swiper-slide">
+                <!--<img src="" alt="" width="100%">-->
+            </div>
+            <div class="swiper-slide">
+                <!--<img src="" alt="" width="100%">-->
+            </div>
+
+        </div>
+        <p class="color-red center pad-t-5 f16">参拍中</p>
+        <!-- Add Pagination -->
+        <!--<div class="swiper-pagination"></div>-->
+    </div>
+
+
+    <!--<div class="col-10vw re" style="padding:2rem 0;overflow:hidden;">
+        <ul class="canpai_cp flex flex-r-w re">
+            <li class="f1 flex">
+                <img class="block" src="img/product.jpg" alt="" height="100%">
+            </li>
+            <li class="f1 flex">
+                <img class="block" src="img/product.jpg" alt="" height="100%">
+            </li>
+            <li class="f1 flex">
+                <img class="block" src="img/product.jpg" alt="" height="100%">
+            </li>
+            <li class="f1 flex">
+                <img class="block" src="img/product.jpg" alt="" height="100%">
+            </li>
+            <li class="f1 flex">
+                <img class="block" src="img/product.jpg" alt="" height="100%">
+            </li>
+        </ul>
+    </div>-->
+    <div class="mar-b-1 center">
+        <p class="f20">参拍倒计时</p>
+        <p class="f10 color-gray">TIME UNTIL NEXT BREAK</p>
+        <div class="countDown col-9 bg-red2 border-radius-3 pad-1 flex color-white f60 line-height-1 re">
+            <span class="sec1">0</span>
+            <span class="sec2">0</span>
+            <p class="f16 mar-l-r-5">:</p>
+            <span class="ms1">0</span>
+            <span class="ms2">0</span>
+            <span class="ms3">0</span>
+            <p class="sec_text f10 ab">(秒)</p>
+        </div>
+    </div>
+
+    <p class="pad-5-1 ellipsis2 mar-b-1">
+        【<span id="goods_name"></span>】
+        <span id="goods_header"></span>
+    </p>
+    <div class="color-red2 pad-5-1 border-b-gray-5">
+        <p class="re">
+            <span class="color-gray ab" style="top:-10px">RMB</span>
+            <span>起拍价</span>
+            <span class="f18 bold"> <span id="auction_price"></span>元</span>
+        </p>
+        <p class="">
+            <span>成交价</span>
+            <span class="f18 bold"> <span id="strike_price"></span>元</span>
+        </p>
+    </div>
+
+
+    <div class="pad-5-1 border-b-gray-5 flex flex-start-x">
+        <img src="img/auction_icon2.png" alt="" width="70">
+        <p class="pad-l-5">往期回顾 · 历史记录</p>
+    </div>
+    <ul id="qishu_box" class="f12">
+
+
+    </ul>
+</section>
+<footer class="flex pad-l-r-1 f16">
+    <div id="canpai" class="color-white border-radius-30 mar-l-r-1 f3 pad-2-5">+ <span id="auction_btn">0</span> 立即参拍</div>
+    <div id="yue_btn" class="bg-gray2 color-black border-radius-30 mar-r-1 f1 pad-2-5">余额</div>
+</footer>
+
+<div class="mask none"></div>
+<div class="canpai_box mask-box col-9 pad-1 center none">
+    <p id="canpai_head" class="pad-t-5 f16 color-yellow">恭喜获得参拍奖金</p>
+    <div class="color-red bold col-6h">
+        <p class="flex f30">￥ <span id="get_money" class="f60">0</span></p>
+        <p id="putback" class="color-red none">拍中的产品将放入你的背包 <br/>可进行寄送</p>
+    </div>
+
+    <span class="yes_btn inline-block col-6 border-radius-30 pad-5 mar-t-2 color-yellow2">确定</span>
+</div>
+</body>
+<script src="js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        loop : true,
+        loopAdditionalSlides : 3,
+        /*autoplay: {
+            delay: 10000,
+            stopOnLastSlide: false,
+            disableOnInteraction: true,
+        },*/
+
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows : true,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    });
+    console.log(swiper);
+
+    var tt; //10秒
+    var nowtime; //当前时间
+    var timeStamp;
+
+    var num=0;
+    var Oul=$(".canpai_cp");
+    var Oli=$(".canpai_cp li");
+    var liWid=$(".canpai_cp li").width()+10;
+    // Oul.html(Oul.html()+Oul.html());
+    var ulWid=liWid*$(".canpai_cp li").length;
+    $(".canpai_cp").width(ulWid+'px');
+
+
+    function autotime() {
+        var distancetime=timeStamp - new Date().getTime();
+
+        if(distancetime>0){
+            var ms=Math.floor(distancetime % 1000);
+            var sec=Math.floor(distancetime / 1000 % 60);
+            if(ms < 100){
+                ms = '0' + ms;
+            }
+            if(sec < 10){
+                sec = '0' + sec;
+            }
+            var showtime=sec+":"+ms;
+            $(".sec1").text(showtime.charAt(0));
+            $(".sec2").text(showtime.charAt(1));
+            $(".ms1").text(showtime.charAt(3));
+            $(".ms2").text(showtime.charAt(4));
+            $(".ms3").text(showtime.charAt(5));
+            $("#showtime").html(showtime);
+            setTimeout(autotime,50)
+
+        }else{
+            $(".sec1").text(0);
+            $(".sec2").text(0);
+            $(".ms1").text(0);
+            $(".ms2").text(0);
+            $(".ms3").text(0);
+
+            nowtime=new Date().getTime();
+            timeStamp=nowtime+10000;
+            setTimeout(autotime,50);
+            anim();
+            swiper.slideNext();
+        }
+    }
+
+    function anim() {
+        // num++;
+        Oul.css("left","0px").animate({left:-liWid*num+'px'},function () {
+            var c=$(".canpai_cp li:last-child").clone();
+            $(".canpai_cp").append(c);
+            $(".canpai_cp li:first-child").remove();
+        });
+        $(".canpai_cp li").eq(1).addClass("bg").siblings().removeClass("bg");
+
+    }
+
+    (function(){
+        // 产品信息
+        data={};
+        data.goods_id=getQueryString('goods_id');
+        new AjaxRequest({
+            type:"POST",
+            param:data,
+            url:hostUrl+"app/jiuyi/auctiongoodscheck",
+            datatype:"json",
+            isShowLoader: true,
+            callBack: function(res){
+                console.log(res);
+                if(res.status==0){
+                    call(res.info);
+                    window.location.href='auction.html';
+                }
+                if(res.status==1){
+                    if(res.data.goodsdata.sold_out==0){
+                        dialog1('该商品已下架！');
+                    }
+                    $("#goods_name").text(res.data.goodsdata.goods_name);
+                    $("#goods_header").text(res.data.goodsdata.goods_header);
+                    $("#auction_price").text(res.data.goodsdata.auction_price/100);
+                    $("#strike_price").text(res.data.goodsdata.strike_price/100);
+                    $("#auction_btn").text(res.data.auction_money/100);
+                    $("#get_money").text(res.data.auction_money/100);
+
+                    $(".swiper-wrapper .swiper-slide").css("background","url("+hostUrl1+res.data.goodsdata.goods_img+")");
+
+                    var mtime=res.data.goodsdata.creatime*1000;
+                    var todaytime=res.data.todaytime;
+                    tt=10000-(todaytime-mtime)%10000;
+                    nowtime=new Date().getTime();
+                    timeStamp=nowtime+tt;
+
+                    autotime();
+
+
+                }
+
+            },
+            error:function (err) {
+                console.log(err);
+            }
+        });
+
+
+        // 开奖期数
+        function getqishu(){
+            data={};
+            data.goods_id=getQueryString('goods_id');
+            new AjaxRequest({
+                type:"POST",
+                param:data,
+                url:hostUrl+"app/jiuyi/showperiodsdetails",
+                datatype:"json",
+                isShowLoader: true,
+                callBack: function(res){
+                    console.log(res);
+                    if(res.status==1){
+                        var qishu='';
+                        var lishi='';
+                        try{
+                            for(var i=0;i<res.data.length;i++){
+                                for(var j=0;j<res.data[i].list.length;j++){
+
+                                    lishi+='<li class="flex"> <p class="left"> <img class="vmid border-radius-y" src="'+res.data[i].list[j].face+'" alt="" width="18"> <span>'+res.data[i].list[j].nickname+'</span> </p> '
+                                    var dd=new Date(res.data[i].list[j].creatime*1000);
+                                    var hour=dd.getHours()<10?'0'+dd.getHours():dd.getHours();
+                                    var sec=dd.getMinutes()<10?'0'+dd.getMinutes():dd.getMinutes();
+                                    var ms=dd.getSeconds()<10?'0'+dd.getSeconds():dd.getSeconds();
+                                    var time=hour+':'+sec+':'+ms;
+                                    if(res.data[i].list[j].is_auction=="0"){
+                                        lishi+='<p>参拍</p> <p class="color-red">+'+res.data[i].list[j].auction_money/100+'</p> <p>'+time+'</p> </li>';
+                                    }else{
+                                        lishi+='<p class="color-red">中拍</p> <p class="color-red">+'+res.data[i].list[j].auction_money/100+'</p> <p>'+time+'</p> </li>';
+                                    }
+
+                                }
+
+                                qishu+='<li class="border-b-gray pad-1 re"> <p class="f16 bold">第'+res.data[i].periods_num+'期</p> <p class="color-gray">开拍：'+res.data[i].creatime+'- 结束：'+res.data[i].auction_time+'</p> <div class="pad-t-b-5 flex"> <div class="col-4 height-100 flex"> <img src="img/product.jpg" alt="" width="100%"> </div> <div class="f1 pad-l-1 re"> <p class="ellipsis2 mar-b-5">【'+res.data[i].goods_name+'】'+res.data[i].goods_header+'</p> <p class="color-gray line-height-1">RMB</p> <p class="color-red2 line-height-1">起拍价 <span class="f16">'+res.data[i].auction_price/100+'元</span></p> <p class="color-red2 line-height-1">成交价 <span class="f16">'+res.data[i].strike_price/100+'元</span></p> <img class="ab r-b-0" src="img/auction_finish.png" alt="" width="110"> </div> </div> <div class="history_more ab col-10 center l-b-0"> <img src="img/auction_xiala.png" alt="" width="20"> </div> <div class="history_record center line-height-2 pad-b-5 none"> <div class="bg-gray3 flex"> <p>昵称</p> <p>中否</p> <p>金额</p> <p>时间</p> </div> <ul class="color-gray">'+lishi+' </ul> </div> </li>'
+                                lishi='';
+
+                            }
+                            $("#qishu_box").html(qishu);
+                        }catch (e) {
+                            console.log(e)
+                        }
+
+
+
+
+                    }
+
+
+                },
+
+                error:function (err) {
+                    console.log(err);
+                }
+            });
+        }getqishu();
+
+
+    }());
+
+
+    $(document).on("click",".dialog_yes",function () {
+        dialog_hide();
+
+    });
+
+    $(document).on("click",".history_more",function(){
+
+        if($(this).hasClass("rotate-180")){
+            $(this).removeClass("rotate-180");
+            $(this).parent().find(".history_record").hide();
+
+        }else{
+            $(this).addClass('rotate-180').parent().find(".history_record").show();
+        }
+
+
+    });
+
+    $("#canpai").click(function () {
+        data={};
+        data.goods_id=getQueryString('goods_id');
+        data.strike_price=$("#strike_price").text();
+        data.auction_money=$("#auction_btn").text();
+        console.log(data.strike_price,data.auction_money);
+        new AjaxRequest({
+            type:"POST",
+            param:data,
+            url:hostUrl+"app/jiuyi/auctiongoods",
+            datatype:"json",
+            isShowLoader: true,
+            callBack: function(res){
+                console.log(res);
+                if(res.status==1){
+                    $(".mask").show();
+                    $(".canpai_box").show();
+                    if(res.data.type==1){
+                        $("#canpai_head").text("恭喜获得参拍奖金");
+                        $("#putback").hide();
+                        $(".yes_btn").click(function(){
+                            dialog_hide();
+
+                        });
+                    }
+                    if(res.data.type==2){
+                        $("#canpai_head").text("恭喜竞拍成功");
+                        $("#putback").show();
+                        $(".yes_btn").click(function(){
+                            dialog_hide();
+                            window.location.reload();
+                        });
+
+                    }
+
+                }else{
+                    call(res.info);
+                }
+
+
+            },
+
+            error:function (err) {
+                console.log(err);
+            }
+        });
+
+    });
+
+
+    $("#yue_btn").click(function(){
+        data={};
+        console.log(localStorage.userid);
+        new AjaxRequest({
+            type:"POST",
+            param:data,
+            url:hostUrl+"app/jiuyi/getUserMoney",
+            datatype:"json",
+            isShowLoader: true,
+            callBack: function(res){
+                console.log(res);
+                if(res.status==1){
+                    dialog1(res.data/100);
+                }
+
+
+            },
+            error:function (err) {
+                console.log(err);
+            }
+        });
+    })
+
+
+
+</script>
+
+</html>
