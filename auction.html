@@ -46,7 +46,6 @@
 </body>
 <script>
     window.onload=function () {
-    //alert("ssss")
         init()
         var page_data;
         data={};
@@ -57,20 +56,19 @@
             datatype:"json",
             isShowLoader: true,
             callBack: function(res){
-                console.log(res);
+                console.log(JSON.stringify(res));
 
                 if(res.status==1){
                     var list='';
                     for (var i=0;i<res.data.length;i++){
                         list+='<li data-id="'+res.data[i].id+'" class="pad-1 border-b-gray flex" > <div class="col-3 flex"> <img src="'+hostUrl1+res.data[i].goods_img+'" alt="" width="100%"> </div> <div class="col-7 pad-l-1"> <p class="mar-b-5 ellipsis2">【'+res.data[i].goods_name+'】'+res.data[i].goods_header+'</p> <div class="line-height-1"> <p class="color-gray">RMB</p> <div class="fr"> <img class="block auto" src="img/auction_icon1.png" alt="" width="25"> <p>立即拍</p> </div> <p class="color-red2">起拍价 <span class="f16 bold">'+res.data[i].auction_price/100+'</span></p> <p class="color-red2">成交价 <span class="f16 bold">'+res.data[i].strike_price/100+'</span></p> </div> </div> </li>';
-
                     }
                     $(".product").html(list);
                 }
             },
 
             error:function (err) {
-                console.log(err);
+                console.log(JSON.stringify(err));
             }
         });
     };
