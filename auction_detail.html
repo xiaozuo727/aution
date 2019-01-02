@@ -125,10 +125,11 @@
 
     </ul>
 </section>
-<footer class="flex pad-l-r-1 f16">
-    <div id="canpai" class="color-white border-radius-30 mar-l-r-1 f3 pad-2-5">+ <span id="auction_btn">0</span> 立即参拍</div>
-    <div id="yue_btn" class="bg-gray2 color-black border-radius-30 mar-r-1 f1 pad-2-5">余额</div>
-</footer>
+
+<div class="fix col-10 l-b-0 center bg-white border-t-gray flex pad-5-1 f16">
+    <div id="canpai" class="color-white border-radius-30 mar-l-r-1 f2 pad-5">+ <span id="auction_btn">0</span> 立即参拍</div>
+    <div id="yue_btn" class="bg-gray2 color-black border-radius-30 mar-r-1 f1 pad-5">余额</div>
+</div>
 
 <div class="mask none"></div>
 <div class="canpai_box mask-box col-9 pad-1 center none">
@@ -150,7 +151,7 @@
 </body>
 <script src="js/swiper.min.js"></script>
 <script>
-    // init();
+     init();
     var swiper = new Swiper('.swiper-container', {
         loop : true,
         loopAdditionalSlides : 3,
@@ -305,7 +306,7 @@
                             for(var i=0;i<res.data.length;i++){
                                 for(var j=0;j<res.data[i].list.length;j++){
 
-                                    lishi+='<li class="flex"> <p class="left"> <img class="vmid border-radius-y" src="'+res.data[i].list[j].face+'" alt="" width="18"> <span>'+res.data[i].list[j].nickname+'</span> </p> '
+                                    lishi+='<li class="flex"> <p class="left"> <img class="vmid border-radius-y" src="'+hostUrl+res.data[i].list[j].face+'" alt="" width="18"> <span>'+res.data[i].list[j].nickname+'</span> </p> '
                                     var dd=new Date(res.data[i].list[j].creatime*1000);
                                     var hour=dd.getHours()<10?'0'+dd.getHours():dd.getHours();
                                     var sec=dd.getMinutes()<10?'0'+dd.getMinutes():dd.getMinutes();
@@ -380,6 +381,7 @@
                 if(res.status==1){
 
                     if(res.data.type==1){
+                        deling();
                         $(".mask").show();
                         $(".canpai_box").show();
 
