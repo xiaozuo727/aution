@@ -134,7 +134,7 @@
 <div class="canpai_box mask-box col-9 pad-1 center none">
     <p id="canpai_head" class="pad-t-5 f16 color-yellow">恭喜获得参拍奖金</p>
     <div class="color-red bold col-6h">
-        <p class="flex f30">￥ <span id="get_money" class="f60">0</span></p>
+        <p class="flex f30">+ <span id="get_money" class="f60">0</span></p>
         <p id="putback" class="color-red none">拍中的产品将放入你的背包 <br/>可进行寄送</p>
     </div>
 
@@ -143,7 +143,7 @@
 <div class="jingpai_box mask-box col-8 center none">
     <div class="re">
         <img src="img/jingpai_bg.png" alt="" width="100%">
-        <p class="ab l-b-0 col-10 pad-b-2 color-red">￥ <span id="jingpai_money"></span></p>
+        <p class="ab l-b-0 col-10 pad-b-2 color-red">+ <span id="jingpai_money"></span></p>
     </div>
     <span class="yes_btn inline-block col-5 border-radius-30 pad-5 mar-t-1 color-yellow2">确定</span>
 </div>
@@ -263,7 +263,7 @@
                     $("#strike_price").text(res.data.goodsdata.strike_price/100);
                     $("#auction_btn").text(res.data.auction_money/100);
                     $("#get_money").text(res.data.auction_money/100);
-                    $("#jingpai_money").text(res.data.goodsdata.strike_price/100);
+                    $("#jingpai_money").text(res.data.auction_money/100);
 
 
                     $(".swiper-wrapper .swiper-slide").css("background","url("+hostUrl1+res.data.goodsdata.goods_img+")");
