@@ -10,6 +10,9 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/global.js?t=1"></script>
     <script src="js/Router.js?t=1"></script>
+    <style>
+        #selec_money li.active{background:#f3302a;border:1px solid #f3302a;color:#fff;}
+    </style>
 </head>
 <body>
 <header>
@@ -31,22 +34,22 @@
             </div>
             <div class="pad-5-1">
                 <p class="f15 color-gray pad-b-5">线上充值</p>
-                <ul class="flex space-btw">
+                <ul id="selec_pay" class="flex space-btw">
                     <li>
-                        <span class="radio active vmid"></span>
-                        支付宝1
+                        <span class="radio vmid"></span>
+                        <i>支付宝1</i>
                     </li>
                     <li>
                         <span class="radio vmid"></span>
-                        支付宝2
+                        <i>支付宝2</i>
                     </li>
                     <li>
                         <span class="radio vmid"></span>
-                        支付宝3
+                        <i>支付宝3</i>
                     </li>
                     <li>
                         <span class="radio vmid"></span>
-                        银行卡
+                        <i>银行卡</i>
                     </li>
                 </ul>
             </div>
@@ -54,40 +57,72 @@
     </div>
 
     <div class="pad-t-b-1">
-        <ul class="pad-1 flex space-btw flex-r-w center">
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                50.01
-            </li>
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                100.45
-            </li>
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                158.08
-            </li>
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                200.01
-            </li>
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                458.07
-            </li>
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                968.01
-            </li>
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                1378.05
-            </li>
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                2000.02
-            </li>
-            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">
-                3000
-            </li>
-            <li class="col-10 bg-red2 border-radius-5 f18 color-white pad-5 mar-t-1">确定支付</li>
+        <ul id="selec_money" class="pad-1 flex space-btw flex-r-w center">
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">50.01</li>
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">100.45</li>
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">158.08</li>
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">200.01</li>
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">458.07</li>
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">968.01</li>
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">1378.05</li>
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">2000.02</li>
+            <li class="col-3 border-radius-5 border-black pad-5 mar-b-5">3000</li>
+            <li id="pay_yes" class="col-10 bg-red2 border-radius-5 f18 color-white pad-5 mar-t-1">确定支付</li>
         </ul>
     </div>
 
 
 </section>
+<script>
+    var type;
+    var pay_money;
+    $("#selec_pay li").click(function () {
+        var index=$(this).index();
+        $("#selec_pay li span").removeClass("active");
+        $("#selec_pay li").eq(index).find("span").addClass("active");
+        type=$(this).find("i").text();
+        console.log(type);
+    });
+    $("#selec_money li").click(function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        pay_money=$(this).text();
 
+    });
+
+
+    $("#pay_yes").click(function () {
+        data={};
+        data.type=type;
+        data.money=pay_money;
+        new AjaxRequest({
+            type: "POST",
+            param: data,
+            url: hostUrl+"app/zhifu/indexs",
+            dataType: "json",
+            isShowLoader: true,
+            callBack: function(res){
+                console.log(res);
+                if(res.status==1){
+                    if(/android/i.test(navigator.userAgent)){
+
+                        window.android.callweb(res.data.url);
+
+                    }
+                    if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)){
+
+                        callweb(res.data.url);
+
+                    }
+
+                }
+
+            },
+            error:function (err) {
+                console.log(err);
+                call(res.info);
+            }
+        })
+    })
+</script>
 </body>
 </html>
