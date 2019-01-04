@@ -2,7 +2,7 @@
 // var hostUrl="http://hongbao.webziti.com/";
 // var hostUrl="http://game1gao.weiquer.com/";
 var hostUrl="http://91pai.webziti.com/";
-var hostUrl1="http://91mana.webziti.com/";
+var hostUrl1="https://91mana.shfcds.com/";
 
 /*
 * type              请求的方式  默认为get
@@ -14,8 +14,10 @@ var hostUrl1="http://91mana.webziti.com/";
 */
 function init() {
     var json;
-    try {
+    try{
         json=android.getlogin()
+        console.log(json);
+        //alert(json)
         eval("var jsonob="+json)
         localStorage.userid=jsonob.userid;
         localStorage.token=jsonob.token;
@@ -23,6 +25,7 @@ function init() {
     }catch (e) {
         console.log(e)
     }
+
 }
 (function(){
     function AjaxRequest(opts){
