@@ -125,11 +125,11 @@ $(document).ready(function () {
 
 // alert 1个按钮 2个按钮
 function dialog1(con) {
-    var alert='<div class="mask"></div> <div class="mask-box bg-white col-7 pad-1 border-radius-5 center"> <p class="pad-b-2">'+con+'</p> <span class="dialog_yes pad-5-2 border-radius-5 bg-blue color-white">确定</span> </div>';
+    var alert='<div class="mask"></div> <div class="mask-box bg-white col-7 pad-1 border-radius-5 center"> <p class="pad-b-2">'+con+'</p> <span class="dialog_yes pad-5-2 border-radius-5 bg-red2 color-white">确定</span> </div>';
     $("body").append(alert);
 }
 function dialog2(con) {
-    var alert='<div class="mask"></div> <div class="mask-box bg-white col-7 pad-1 border-radius-5 center"> <p class="pad-b-2">'+con+'</p> <span class="dialog_cancel pad-5-2 border-radius-5 bg-gray2 mar-r-2">取消</span><span class="dialog_yes pad-5-2 border-radius-5 bg-blue color-white">确定</span> </div>';
+    var alert='<div class="mask"></div> <div class="mask-box bg-white col-7 pad-1 border-radius-5 center"> <p class="pad-b-2">'+con+'</p> <span class="dialog_cancel pad-5-2 border-radius-5 bg-gray2 mar-r-2">取消</span><span class="dialog_yes pad-5-2 border-radius-5 bg-red2 color-white">确定</span> </div>';
     $("body").append(alert);
 }
 function dialog_hide(){
