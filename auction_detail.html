@@ -42,7 +42,7 @@
 <body>
 <header class="flex">
     <a onclick="jsback()" class="f1 arrow rotate-180" style=""></a>
-    <div class="f8">产品详情</div>
+    <div class="f8" id="reflash">产品详情</div>
     <div class="f1"></div>
 </header>
 <section>
@@ -150,7 +150,7 @@
 </body>
 <script src="js/swiper.min.js"></script>
 <script>
-    // init();
+    init();
     var swiper = new Swiper('.swiper-container', {
         loop : true,
         loopAdditionalSlides : 3,
@@ -316,7 +316,6 @@
                                     }else{
                                         lishi+='<p class="color-red">中拍</p> <p class="color-red">+'+res.data[i].list[j].auction_money/100+'</p> <p>'+time+'</p> </li>';
                                     }
-
                                 }
 
                                 qishu+='<li class="border-b-gray pad-1 re"> <p class="f16 bold">第'+res.data[i].periods_num+'期</p> <p class="color-gray">开拍：'+res.data[i].creatime+'- 结束：'+res.data[i].auction_time+'</p> <div class="pad-t-b-5 flex"> <div class="col-4 height-100 flex"> <img src="'+hostUrl1+res.data[i].goods_img+'" alt="" width="100%"> </div> <div class="f1 pad-l-1 re"> <p class="ellipsis2 mar-b-5">【'+res.data[i].goods_name+'】'+res.data[i].goods_header+'</p> <p class="color-gray line-height-1">RMB</p> <p class="color-red2 line-height-1">起拍价 <span class="f16">'+res.data[i].auction_price/100+'元</span></p> <p class="color-red2 line-height-1">成交价 <span class="f16">'+res.data[i].strike_price/100+'元</span></p> <img class="ab r-b-0" src="img/auction_finish.png" alt="" width="110"> </div> </div> <div class="history_more ab col-10 center l-b-0"> <img src="img/auction_xiala.png" alt="" width="20"> </div> <div class="history_record center line-height-2 pad-b-5 none"> <div class="bg-gray3 flex"> <p>昵称</p> <p>中否</p> <p>金额</p> <p>时间</p> </div> <ul class="color-gray">'+lishi+' </ul> </div> </li>'
@@ -362,6 +361,11 @@
 
 
     });
+    $(document).on("click","#reflash",function(){
+
+        window.location.reload()
+
+    });
 
     $("#canpai").click(function () {
         data={};
@@ -382,7 +386,7 @@
                     if(res.data.type==1){
                         $(".mask").show();
                         $(".canpai_box").show();
-
+                        android.deling();
                         $(".yes_btn").click(function(){
                             dialog_hide();
 
@@ -391,18 +395,15 @@
                     if(res.data.type==2){
                         $(".mask").show();
                         $(".jingpai_box").show();
-
+                        android.deling();
                         $(".yes_btn").click(function(){
                             dialog_hide();
                             window.location.reload();
                         });
-
                     }
                 }else{
                     call(res.info);
                 }
-
-
             },
 
             error:function (err) {
@@ -427,8 +428,6 @@
                 if(res.status==1){
                     dialog1(res.data/100);
                 }
-
-
             },
             error:function (err) {
                 console.log(err);
